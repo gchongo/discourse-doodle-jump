@@ -1,0 +1,18 @@
+en:
+  js:
+    discourse_doodle_jump:
+      title: "Doodle jump"
+      intro: "Jump on platforms, dodge black holes, and chase a new high score."
+      controls_desktop: "Desktop: use left and right arrow keys (or A and D)."
+      controls_mobile: "Mobile: touch the left or right half of the game screen."
+      loading: "Loading..."
+      leaderboard_title: "All-time leaderboard"
+      leaderboard_empty: "No scores yet. Be the first to set a record."
+      rank: "Rank"
+      player: "Player"
+      score: "Score"
+      personal_best: "Your rank: #%{rank} · best score: %{score}"
+      guest_notice: "You can play as a guest. Log in to save your best score on the leaderboard."
+      login_to_rank: "Log in"
+      signup_to_rank: "Sign up"
+      new_record_toast: "New personal best saved to the leaderboard."

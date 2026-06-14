@@ -1,0 +1,172 @@
+.doodle-jump-page {
+  &__header {
+    margin-bottom: 1.5em;
+
+    h1 {
+      margin-bottom: 0.35em;
+    }
+  }
+
+  &__intro {
+    color: var(--primary-medium);
+    margin-bottom: 1em;
+  }
+
+  &__help {
+    margin: 0;
+    padding-left: 1.25em;
+    color: var(--primary-medium);
+
+    li + li {
+      margin-top: 0.35em;
+    }
+  }
+
+  &__game-shell {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 1.5em;
+    aspect-ratio: 9 / 16;
+    max-height: min(72dvh, 720px);
+    border: 1px solid var(--primary-low);
+    border-radius: var(--d-border-radius);
+    overflow: hidden;
+    background: #f5eee4;
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
+
+  &__frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  &__personal {
+    text-align: center;
+    margin: 0 0 1.25em;
+    color: var(--primary);
+    font-weight: 600;
+  }
+}
+
+.doodle-jump-guest-notice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75em;
+  margin: 0 0 1.5em;
+  padding: 1em;
+  border: 1px solid var(--primary-low);
+  border-radius: var(--d-border-radius);
+  background: var(--secondary);
+
+  &__icon {
+    color: var(--tertiary);
+    font-size: var(--font-up-2);
+  }
+
+  &__message {
+    margin: 0;
+    text-align: center;
+    color: var(--primary-medium);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    justify-content: center;
+  }
+}
+
+.doodle-jump-leaderboard {
+  margin-top: 0.5em;
+
+  h2 {
+    margin-bottom: 0.75em;
+  }
+
+  &__loading,
+  &__empty {
+    color: var(--primary-medium);
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 0.65em 0.5em;
+      border-bottom: 1px solid var(--primary-low);
+      text-align: left;
+    }
+
+    th {
+      color: var(--primary-medium);
+      font-weight: 600;
+    }
+  }
+
+  &__rank {
+    width: 3.5em;
+    font-variant-numeric: tabular-nums;
+    color: var(--primary-medium);
+  }
+
+  &__player {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  &__username {
+    font-weight: 600;
+  }
+
+  &__score {
+    width: 6em;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+}
+
+@media (width <= 40rem) {
+  .doodle-jump-page__game-shell {
+    max-width: none;
+    max-height: min(65dvh, 640px);
+  }
+
+  .doodle-jump-leaderboard__table {
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: grid;
+      grid-template-columns: 2.5em 1fr auto;
+      gap: 0.35em 0.5em;
+      padding: 0.75em 0;
+      border-bottom: 1px solid var(--primary-low);
+    }
+
+    td {
+      border-bottom: 0;
+      padding: 0;
+    }
+
+    .doodle-jump-leaderboard__player {
+      grid-column: 2 / 4;
+    }
+
+    .doodle-jump-leaderboard__score {
+      grid-column: 3;
+      grid-row: 1;
+      align-self: center;
+    }
+  }
+}

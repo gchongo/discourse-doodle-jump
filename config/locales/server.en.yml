@@ -1,0 +1,4 @@
+en:
+  site_settings:
+    doodle_jump_enabled: "Enable the Doodle Jump game page at /game/doodle-jump"
+    doodle_jump_leaderboard_size: "Number of players shown on the all-time leaderboard"

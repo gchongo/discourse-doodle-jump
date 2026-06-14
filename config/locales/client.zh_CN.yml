@@ -1,0 +1,18 @@
+zh_CN:
+  js:
+    discourse_doodle_jump:
+      title: "涂鸦跳跃"
+      intro: "在平台间跳跃，躲开黑洞，挑战更高分数。"
+      controls_desktop: "电脑端：使用左右方向键（或 A / D）。"
+      controls_mobile: "手机端：触摸游戏画面左半或右半区域移动。"
+      loading: "加载中..."
+      leaderboard_title: "全站历史排行榜"
+      leaderboard_empty: "还没有记录，来做第一个上榜的人吧。"
+      rank: "排名"
+      player: "玩家"
+      score: "分数"
+      personal_best: "你的排名：第 %{rank} 名 · 最高分：%{score}"
+      guest_notice: "游客可以直接游玩。登录后可保存最高分并参与排行榜。"
+      login_to_rank: "登录"
+      signup_to_rank: "注册"
+      new_record_toast: "已刷新个人最高分并更新排行榜。"

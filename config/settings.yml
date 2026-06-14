@@ -1,0 +1,9 @@
+plugins:
+  doodle_jump_enabled:
+    default: false
+    client: true
+  doodle_jump_leaderboard_size:
+    default: 10
+    min: 5
+    max: 50
+    client: true

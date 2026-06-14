@@ -1,0 +1,4 @@
+zh_CN:
+  site_settings:
+    doodle_jump_enabled: "启用 /game/doodle-jump 涂鸦跳跃游戏页面"
+    doodle_jump_leaderboard_size: "全站历史排行榜显示人数"
