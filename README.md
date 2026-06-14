@@ -1,16 +1,29 @@
 # discourse-doodle-jump
 
-Doodle Jump mini-game page for Discourse with a standalone all-time leaderboard.
+Discourse plugin: Doodle Jump mini-game at `/game/doodle-jump` with a standalone all-time leaderboard.
 
-## Features
+## Features (v0.1.0)
 
-- Playable at `/game/doodle-jump` on desktop and mobile
-- Guests can play; only logged-in users appear on the leaderboard
-- Configurable all-time top N (`doodle_jump_leaderboard_size`, 5–50)
-- Page layout matches Discourse static pages (`container` + `body-page`)
-- Game based on [takosenpai2687/doodle-jump](https://github.com/takosenpai2687/doodle-jump) (MIT)
+- Game page at **`/game/doodle-jump`** — desktop and mobile
+- **Guests can play**; only **logged-in users** appear on the leaderboard (encourages sign-up)
+- **All-time top N** leaderboard (`doodle_jump_leaderboard_size`, 5–50, default 10)
+- Each user keeps one **best score**; lower scores are ignored
+- Page shell matches Discourse static pages (`container` + `body-page`)
+- Does **not** integrate with `discourse-gamification` or site points
+- Game based on [takosenpai2687/doodle-jump](https://github.com/takosenpai2687/doodle-jump) (MIT), embedded via iframe
+
+## How to play
+
+| Platform | Controls |
+|---|---|
+| Desktop | Left / right arrow keys, or A / D |
+| Mobile | Touch the left or right half of the game screen |
+
+Jump on platforms. Avoid black holes. After game over, logged-in users automatically submit their score if it is a new personal best.
 
 ## Installation
+
+Add to `/var/discourse/containers/app.yml`:
 
 ```yaml
 hooks:
@@ -19,26 +32,86 @@ hooks:
         cd: $home/plugins
         cmd:
           - rm -rf discourse-doodle-jump
-          - git clone https://github.com/howhy-day/discourse-doodle-jump.git
+          - git clone https://github.com/gchongo/discourse-doodle-jump.git
+```
+
+Rebuild:
+
+```bash
+cd /var/discourse
+./launcher rebuild app
+```
+
+Enable **`doodle_jump_enabled`** in admin → Settings → Plugins.
+
+Then open **`/game/doodle-jump`**.
+
+## Settings
+
+| Setting | Default | Description |
+|---|---|---|
+| `doodle_jump_enabled` | `false` | Master switch for the game page and APIs |
+| `doodle_jump_leaderboard_size` | `10` | Number of players on the all-time leaderboard (5–50) |
+
+## Leaderboard
+
+- **GET** `/game/doodle-jump/scores.json` — public leaderboard + personal rank (if logged in)
+- **POST** `/game/doodle-jump/scores.json` — logged-in users only; updates best score when higher
+- Rate limit: 3 submissions per user per minute
+
+Guests see a login / sign-up prompt below the game; their runs are not saved.
+
+## Updating the plugin
+
+```yaml
+# in app.yml after_code, same clone URL is fine — rebuild re-clones on bootstrap
+- rm -rf discourse-doodle-jump
+- git clone https://github.com/gchongo/discourse-doodle-jump.git
 ```
 
 ```bash
 ./launcher rebuild app
 ```
 
-Enable `doodle_jump_enabled` in admin site settings.
+To pin a version, clone a tag or commit:
 
-## Settings
+```bash
+git clone https://github.com/gchongo/discourse-doodle-jump.git
+cd discourse-doodle-jump && git checkout v0.1.0
+```
 
-| Setting | Default | Description |
-|---|---|---|
-| `doodle_jump_enabled` | `false` | Master switch |
-| `doodle_jump_leaderboard_size` | `10` | All-time leaderboard size (5–50) |
+## Troubleshooting
 
-## Game credits
+**Bootstrap fails with `git clone ... exit 128`**
 
-- Game code: [takosenpai2687/doodle-jump](https://github.com/takosenpai2687/doodle-jump)
-- Sound assets: [The Sounds Resource](https://www.sounds-resource.com/mobile/doodlejump/sound/1636/)
+The clone URL must point to an existing public repo. Use:
+
+```bash
+git clone https://github.com/gchongo/discourse-doodle-jump.git
+```
+
+`https://github.com/howhy-day/discourse-doodle-jump` does not exist unless you create and push that repo yourself.
+
+**Page shows 404 or redirects home**
+
+Check that `doodle_jump_enabled` is on and rebuild completed without errors.
+
+**Game loads but leaderboard stays empty**
+
+Only logged-in users who finish a run and beat their previous best appear after the first submission.
+
+## Development
+
+```bash
+bin/rspec plugins/discourse-doodle-jump/spec/
+bin/lint plugins/discourse-doodle-jump/assets/javascripts/discourse/
+```
+
+## Credits
+
+- Plugin: [gchongo/discourse-doodle-jump](https://github.com/gchongo/discourse-doodle-jump)
+- Game: [takosenpai2687/doodle-jump](https://github.com/takosenpai2687/doodle-jump)
+- Sound assets: [The Sounds Resource — Doodle Jump](https://www.sounds-resource.com/mobile/doodlejump/sound/1636/)
 
 ## License
 
