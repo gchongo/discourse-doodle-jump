@@ -92,6 +92,26 @@ git clone https://github.com/gchongo/discourse-doodle-jump.git
 
 `https://github.com/howhy-day/discourse-doodle-jump` does not exist unless you create and push that repo yourself.
 
+**Bootstrap fails at `rake db:migrate`**
+
+Scroll up in the rebuild log for the first `StandardError` / `PG::` line — the failing migration may be this plugin or another plugin (e.g. `discourse-quiz`).
+
+To rerun migrations and see the full error:
+
+```bash
+./launcher enter app
+su discourse -c "cd /var/www/discourse && bundle exec rake db:migrate --trace"
+```
+
+If a previous failed rebuild left a half-created table, enter the container and check:
+
+```bash
+./launcher enter app
+su discourse -c "cd /var/www/discourse && bundle exec rails runner \"puts ActiveRecord::Base.connection.table_exists?(:doodle_jump_scores)\""
+```
+
+Then rebuild after pulling the latest plugin commit (migrations are idempotent).
+
 **Page shows 404 or redirects home**
 
 Check that `doodle_jump_enabled` is on and rebuild completed without errors.
