@@ -62,9 +62,15 @@ module DiscourseDoodleJump
       content_type = MIME_TYPES[extension] || "application/octet-stream"
 
       set_game_frame_headers if content_type == "text/html"
-      response.headers["Cache-Control"] = "no-store"
+      disable_caching!
 
       send_file(full_path, type: content_type, disposition: "inline")
+    end
+
+    def disable_caching!
+      response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0, private"
+      response.headers["Pragma"] = "no-cache"
+      response.headers["Expires"] = "0"
     end
 
     def set_game_frame_headers

@@ -2,7 +2,7 @@
 
 Discourse plugin: Doodle Jump mini-game at `/game/doodle-jump` with a standalone all-time leaderboard.
 
-## Features (v0.1.1)
+## Features (v0.1.2)
 
 - Game page at **`/game/doodle-jump`** — desktop and mobile
 - **Guests can play**; only **logged-in users** appear on the leaderboard (encourages sign-up)
@@ -124,6 +124,17 @@ su discourse -c "cd /var/www/discourse && bundle exec rake db:migrate --trace"
 The game iframe uses a relaxed CSP (including `blob:` workers). Audio is disabled in the embedded version because `p5.sound` Web Audio workers conflict with strict site CSP; gameplay is unaffected.
 
 Pull the latest plugin, rebuild, and hard-refresh. Ignore Cloudflare Insights script warnings in the console.
+
+**`soundFormats is not defined` or Google Fonts CSP errors after rebuild**
+
+The origin may already serve fixed files, but **Cloudflare can keep an old cached `index.js` for up to 4 hours** (`Cf-Cache-Status: HIT`). Game assets in `index.html` use `?v=` query strings to bust that cache; bump the version in `index.html` and `doodle-jump-page.gjs` if needed.
+
+1. Rebuild with a clean clone (`rm -rf discourse-doodle-jump` before `git clone`).
+2. In Cloudflare → **Caching → Purge Cache** → purge URLs:
+   - `/game/doodle-jump/play/js/index.js`
+   - `/game/doodle-jump/play/css/style.css`
+   Or use **Purge Everything** once after deploy.
+3. Hard-refresh or open in a private window. Check `/game/doodle-jump/play/js/index.js?v=3` — it must **not** contain `soundFormats` or `userStartAudio`.
 
 **Game loads but leaderboard stays empty**
 

@@ -16,7 +16,7 @@ export default class DoodleJumpPage extends Component {
   @tracked leaderboardData = null;
   @tracked loadingLeaderboard = true;
 
-  gameUrl = "/game/doodle-jump/play/?v=2";
+  gameUrl = "/game/doodle-jump/play/?v=3";
 
   constructor() {
     super(...arguments);
