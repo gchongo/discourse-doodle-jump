@@ -94,7 +94,15 @@ git clone https://github.com/gchongo/discourse-doodle-jump.git
 
 **Bootstrap fails at `rake db:migrate`**
 
-Scroll up in the rebuild log for the first `StandardError` / `PG::` line — the failing migration may be this plugin or another plugin (e.g. `discourse-quiz`).
+Scroll up in the rebuild log for the first `StandardError` / `PG::` line.
+
+A common mistake is a **future migration timestamp**. Discourse rejects any migration newer than the current UTC time, for example:
+
+```text
+Migration 20260614100000 is timestamped in the future
+```
+
+Plugin migrations must use a timestamp that is already in the past at rebuild time. This repo uses `20260614002000` (after `discourse-quiz`, before noon UTC).
 
 To rerun migrations and see the full error:
 
@@ -102,15 +110,6 @@ To rerun migrations and see the full error:
 ./launcher enter app
 su discourse -c "cd /var/www/discourse && bundle exec rake db:migrate --trace"
 ```
-
-If a previous failed rebuild left a half-created table, enter the container and check:
-
-```bash
-./launcher enter app
-su discourse -c "cd /var/www/discourse && bundle exec rails runner \"puts ActiveRecord::Base.connection.table_exists?(:doodle_jump_scores)\""
-```
-
-Then rebuild after pulling the latest plugin commit (migrations are idempotent).
 
 **Page shows 404 or redirects home**
 
