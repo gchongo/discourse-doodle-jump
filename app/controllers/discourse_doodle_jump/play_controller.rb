@@ -62,6 +62,7 @@ module DiscourseDoodleJump
       content_type = MIME_TYPES[extension] || "application/octet-stream"
 
       set_game_frame_headers if content_type == "text/html"
+      response.headers["Cache-Control"] = "no-store"
 
       send_file(full_path, type: content_type, disposition: "inline")
     end

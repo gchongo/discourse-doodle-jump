@@ -40,9 +40,15 @@ const sound = {
     falling: null,
 };
 
-// Safely play a sound — iOS may fail to load audio, guard against null/errors
+// Safely play a sound when p5.sound is unavailable in the iframe build.
 function playSound(s) {
-    try { if (s && s.isLoaded()) s.play(); } catch (e) {}
+    if (!s || typeof s.play !== "function") {
+        return;
+    }
+
+    try {
+        s.play();
+    } catch (e) {}
 }
 
 /**

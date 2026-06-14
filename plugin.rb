@@ -2,7 +2,7 @@
 
 # name: discourse-doodle-jump
 # about: Doodle Jump mini-game with standalone leaderboard for Discourse.
-# version: 0.1.0
+# version: 0.1.1
 # authors: howhy.day
 # url: https://www.howhy.day/
 

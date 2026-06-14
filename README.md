@@ -2,7 +2,7 @@
 
 Discourse plugin: Doodle Jump mini-game at `/game/doodle-jump` with a standalone all-time leaderboard.
 
-## Features (v0.1.0)
+## Features (v0.1.1)
 
 - Game page at **`/game/doodle-jump`** — desktop and mobile
 - **Guests can play**; only **logged-in users** appear on the leaderboard (encourages sign-up)
@@ -34,6 +34,8 @@ hooks:
           - rm -rf discourse-doodle-jump
           - git clone https://github.com/gchongo/discourse-doodle-jump.git
 ```
+
+Always include `rm -rf discourse-doodle-jump` before clone. Without it, stale game files can remain on disk and cause errors such as `soundFormats is not defined` or Google Fonts CSP warnings.
 
 Rebuild:
 
