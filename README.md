@@ -42,7 +42,7 @@ cd /var/discourse
 ./launcher rebuild app
 ```
 
-Enable **`doodle_jump_enabled`** in admin → Settings → Plugins.
+Enable **`doodle_jump_enabled`** in admin → Settings → Plugins (default is off; when off, the Ember route is not loaded and `/game/doodle-jump` shows a 404).
 
 Then open **`/game/doodle-jump`**.
 
@@ -113,7 +113,15 @@ su discourse -c "cd /var/www/discourse && bundle exec rake db:migrate --trace"
 
 **Page shows 404 or redirects home**
 
-Check that `doodle_jump_enabled` is on and rebuild completed without errors.
+1. Check that **`doodle_jump_enabled`** is on (required — plugin JS and the Ember route are only loaded when enabled).
+2. Rebuild completed without errors and the plugin is present under `plugins/discourse-doodle-jump`.
+3. Hard-refresh the browser (Ctrl+F5) after enabling the setting.
+
+**Game iframe is blank or console shows CSP errors**
+
+Discourse's default CSP blocks classic `<script src>` tags inside the game iframe. The plugin sets a relaxed CSP on `/game/doodle-jump/play/` only. Pull the latest plugin code and rebuild.
+
+If CSS fails to load with a MIME type error, ensure routes use `format: false` (included in current versions).
 
 **Game loads but leaderboard stays empty**
 

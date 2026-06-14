@@ -84,6 +84,14 @@ RSpec.describe DiscourseDoodleJump::ScoresController do
 
       expect(response.status).to eq(200)
       expect(response.body).to include("Doodle Jump")
+      expect(response.headers["Content-Security-Policy"]).to include("script-src 'self'")
+    end
+
+    it "serves game assets with the correct content type" do
+      get "/game/doodle-jump/play/css/style.css"
+
+      expect(response.status).to eq(200)
+      expect(response.media_type).to eq("text/css")
     end
   end
 end

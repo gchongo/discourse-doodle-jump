@@ -9,6 +9,7 @@ module DiscourseDoodleJump
                        :redirect_to_login_if_required,
                        :redirect_to_profile_if_required
     skip_before_action :preload_json
+    skip_after_action :set_cross_origin_opener_policy_header
 
     before_action :ensure_enabled
 
@@ -31,16 +32,22 @@ module DiscourseDoodleJump
     end
 
     def show
-      relative_path = params[:path].to_s
-      raise Discourse::NotFound if relative_path.blank?
-
-      serve_relative_path(relative_path)
+      serve_relative_path(resolved_asset_path)
     end
 
     private
 
     def ensure_enabled
       raise Discourse::NotFound unless SiteSetting.doodle_jump_enabled
+    end
+
+    def resolved_asset_path
+      path = params[:path].to_s
+      raise Discourse::NotFound if path.blank?
+
+      path = "#{path}.#{params[:format]}" if params[:format].present?
+
+      path
     end
 
     def serve_relative_path(relative_path)
@@ -54,7 +61,16 @@ module DiscourseDoodleJump
       extension = File.extname(full_path).delete_prefix(".")
       content_type = MIME_TYPES[extension] || "application/octet-stream"
 
+      set_game_frame_headers if content_type == "text/html"
+
       send_file(full_path, type: content_type, disposition: "inline")
+    end
+
+    def set_game_frame_headers
+      response.headers.delete("X-Frame-Options")
+      response.headers[
+        "Content-Security-Policy"
+      ] = "default-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; font-src 'self';"
     end
   end
 end
