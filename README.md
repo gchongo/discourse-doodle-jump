@@ -117,11 +117,11 @@ su discourse -c "cd /var/www/discourse && bundle exec rake db:migrate --trace"
 2. Rebuild completed without errors and the plugin is present under `plugins/discourse-doodle-jump`.
 3. Hard-refresh the browser (Ctrl+F5) after enabling the setting.
 
-**Game iframe is blank or console shows CSP errors**
+**Game iframe is blank, stuck on "Loading...", or shows CSP errors**
 
-Discourse's default CSP blocks classic `<script src>` tags inside the game iframe. The plugin sets a relaxed CSP on `/game/doodle-jump/play/` only. Pull the latest plugin code and rebuild.
+The game iframe uses a relaxed CSP (including `blob:` workers). Audio is disabled in the embedded version because `p5.sound` Web Audio workers conflict with strict site CSP; gameplay is unaffected.
 
-If CSS fails to load with a MIME type error, ensure routes use `format: false` (included in current versions).
+Pull the latest plugin, rebuild, and hard-refresh. Ignore Cloudflare Insights script warnings in the console.
 
 **Game loads but leaderboard stays empty**
 

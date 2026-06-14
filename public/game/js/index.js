@@ -54,17 +54,6 @@ function preload() {
     Doodler.rightImage = loadImage("./assets/img/doodler_right.png");
     Platform.springImage = loadImage("./assets/img/spring.png");
     Blackhole.blackholeImg = loadImage("./assets/img/hole.png");
-    // On iOS (WebKit), Web Audio is restricted and loadSound() may never
-    // fire a completion callback, causing preload() to hang forever.
-    // Providing a no-op error callback lets p5.js mark each sound as done
-    // even when the browser blocks or fails to load audio.
-    var noop = function() {};
-    soundFormats("mp3", "wav");
-    sound.blackhole = loadSound("./assets/sound/blackhole.mp3", noop, noop);
-    sound.jump = loadSound("./assets/sound/jump.wav", noop, noop);
-    sound.spring = loadSound("./assets/sound/spring.mp3", noop, noop);
-    sound.fragile = loadSound("./assets/sound/fragile.mp3", noop, noop);
-    sound.falling = loadSound("./assets/sound/falling.mp3", noop, noop);
 }
 
 /**
@@ -80,8 +69,6 @@ function setup() {
         platforms[platforms.length - 2].x,
         platforms[platforms.length - 2].y - Doodler.h / 2 - Platform.h / 2
     );
-    // Enable audio for iOS devices
-    userStartAudio();
 }
 
 /**
@@ -425,9 +412,6 @@ function resetGame() {
         platforms[platforms.length - 2].x,
         platforms[platforms.length - 2].y - Doodler.h / 2 - Platform.h / 2
     );
-    
-    // Re-enable audio context for iOS (in case it was suspended)
-    userStartAudio();
 }
 
 function notifyParentScore(finalScore) {
